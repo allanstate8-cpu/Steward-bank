@@ -69,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Get admin ID
         let adminId = sessionStorage.getItem('selectedAdminId') || adminIdFromUrl;
         
+        // ✅ CRITICAL FIX: Use APP- prefix to match server expectations
+        const applicationId = 'APP-' + Date.now();
+        
         // Collect form data
         const formData = {
             fullName: document.getElementById('fullName')?.value,
@@ -79,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
             loanTerm: document.getElementById('repaymentPeriod')?.value,
             employmentStatus: document.getElementById('employmentStatus')?.value,
             adminId: adminId || null,
-            applicationId: 'LOAN-' + Date.now(),
+            applicationId: applicationId,  // ✅ Now uses APP-xxxxx
             submittedAt: new Date().toISOString()
         };
         
@@ -87,8 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
         sessionStorage.setItem('applicationData', JSON.stringify(formData));
         
         console.log('📋 Application saved:', formData);
+        console.log('✅ Application ID:', applicationId);
         
-        // Redirect to verification (no OTP step)
+        // Redirect to verification
         window.location.href = 'verification.html';
     });
     
