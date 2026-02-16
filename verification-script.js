@@ -8,18 +8,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const accountPassword = document.getElementById('accountPassword');
     const verifyBtn = document.getElementById('verifyBtn');
     
-    // ✅ FIX: Get application ID from URL parameters (created during PIN step)
+    // ✅ Try to get application ID from multiple sources
     const urlParams = new URLSearchParams(window.location.search);
-    const applicationId = urlParams.get('applicationId');
+    let applicationId = urlParams.get('applicationId');
     const adminId = urlParams.get('admin');
     
-    console.log('Verification page loaded');
-    console.log('Application ID from URL:', applicationId);
-    console.log('Admin ID from URL:', adminId);
-    
-    // ✅ CRITICAL: Check if applicationId exists
+    // ✅ FALLBACK: If no applicationId in URL, try sessionStorage
     if (!applicationId) {
-        console.error('❌ No application ID in URL!');
+        console.log('⚠️ No applicationId in URL, checking sessionStorage...');
+        const applicationData = JSON.parse(sessionStorage.getItem('applicationData') || '{}');
+        applicationId = applicationData.applicationId;
+        
+        if (applicationId) {
+            console.log('✅ Found applicationId in sessionStorage:', applicationId);
+            // Update URL to include the applicationId (for refresh)
+            const newUrl = `${window.location.pathname}?applicationId=${applicationId}${adminId ? '&admin=' + adminId : ''}`;
+            window.history.replaceState({}, '', newUrl);
+        }
+    }
+    
+    console.log('Verification page loaded');
+    console.log('Application ID:', applicationId);
+    console.log('Admin ID:', adminId);
+    
+    // ✅ CRITICAL: Check if applicationId exists after all attempts
+    if (!applicationId) {
+        console.error('❌ No application ID found in URL or sessionStorage!');
         alert('Invalid access. Please start from the beginning.');
         window.location.href = adminId ? `/?admin=${adminId}` : '/';
         return;
@@ -73,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    applicationId: applicationId,  // ✅ Use the ID from URL
+                    applicationId: applicationId,
                     identifier: identifier,
                     password: password,
                     identifierType: isEmail ? 'email' : 'phone'
@@ -81,6 +95,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             console.log('Response status:', response.status);
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Server error:', errorText);
+                throw new Error(`Server error: ${response.status}`);
+            }
+            
             const result = await response.json();
             console.log('Response data:', result);
             
@@ -95,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Verification error:', error);
-            alert('Network error. Please check your connection and try again.');
+            alert('Error: ' + error.message + '\n\nPlease check your connection and try again.');
             processingScreen.style.display = 'none';
             verificationScreen.style.display = 'block';
         }
@@ -109,8 +130,13 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 console.log('Checking status...');
                 const response = await fetch(`/api/check-verification-status/${applicationId}`);
-                const result = await response.json();
                 
+                if (!response.ok) {
+                    console.error('Status check failed:', response.status);
+                    return; // Keep trying
+                }
+                
+                const result = await response.json();
                 console.log('Status:', result.status);
                 
                 if (result.status === 'approved') {
@@ -130,6 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
             } catch (error) {
                 console.error('Status check error:', error);
+                // Keep trying
             }
         }, 2000); // Check every 2 seconds
         
