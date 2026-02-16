@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steward Bank - Fast & Secure Loans in Zimbabwe</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🏦</span>
+                <span class="logo-text">Steward Bank</span>
+            </div>
+            <div class="nav-links">
+                <a href="#calculator">Calculator</a>
+                <a href="#features">Features</a>
+                <a href="#security">Security</a>
+                <a href="#reviews">Reviews</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="trust-badge">
+                    <span class="badge-icon">✓</span>
+                    <span>Licensed & Regulated by RBZ</span>
+                </div>
+                <h1 class="hero-title">Get Your Loan in <span class="highlight">15 Minutes</span></h1>
+                <p class="hero-subtitle">Fast, transparent, and secure loans from $100 to $10,000</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">$2.5M+</div>
+                        <div class="stat-label">Loans Disbursed</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">4.9★</div>
+                        <div class="stat-label">Trust Rating</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loan Calculator Section -->
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Calculate Your Loan</h2>
+                <p class="section-subtitle">Get instant estimates with our transparent calculator</p>
+            </div>
+
+            <div class="calculator-card">
+                <div class="calculator-inputs">
+                    <div class="calc-group">
+                        <label>Loan Amount</label>
+                        <div class="amount-display">
+                            <span class="currency">$</span>
+                            <input type="number" id="calcAmount" value="1000" min="100" max="10000" step="100">
+                        </div>
+                        <input type="range" id="calcSlider" min="100" max="10000" value="1000" step="100">
+                        <div class="range-labels">
+                            <span>$100</span>
+                            <span>$10,000</span>
+                        </div>
+                    </div>
+
+                    <div class="calc-group">
+                        <label>Loan Term</label>
+                        <select id="calcTerm">
+                            <option value="3">3 Months</option>
+                            <option value="6">6 Months</option>
+                            <option value="12" selected>12 Months</option>
+                            <option value="24">24 Months</option>
+                            <option value="36">36 Months</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calculator-results">
+                    <div class="result-item">
+                        <span class="result-label">Monthly Payment</span>
+                        <span class="result-value" id="monthlyPayment">$92</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Interest Rate (APR)</span>
+                        <span class="result-value">12%</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Repayment</span>
+                        <span class="result-value" id="totalRepayment">$1,104</span>
+                    </div>
+                </div>
+
+                <button class="cta-button" onclick="window.location.href='application.html'">
+                    Apply Now - Get Instant Decision
+                    <span class="arrow">→</span>
+                </button>
+
+                <div class="calculator-footer">
+                    <p>✓ No hidden fees • ✓ No early repayment penalties • ✓ Fast approval</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Why Choose Steward Bank?</h2>
+                <p class="section-subtitle">We make borrowing easy, fast, and transparent</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Approval</h3>
+                    <p>Get approved in just 15 minutes with our automated system</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💯</div>
+                    <h3>100% Transparent</h3>
+                    <p>No hidden fees. What you see is what you pay. Always.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Bank-Level Security</h3>
+                    <p>256-bit SSL encryption protects all your personal information</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Mobile Friendly</h3>
+                    <p>Apply from anywhere, anytime on any device</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Flexible Payments</h3>
+                    <p>Choose your payment schedule that fits your budget</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>No Early Payment Penalty</h3>
+                    <p>Pay off your loan early without any additional charges</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Section -->
+    <section id="security" class="security-section">
+        <div class="container">
+            <div class="security-content">
+                <div class="security-text">
+                    <h2 class="section-title">Your Security is Our Priority</h2>
+                    <p class="section-subtitle">We use industry-leading security measures to protect your data</p>
+                    
+                    <div class="security-features">
+                        <div class="security-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>256-bit SSL Encryption</strong>
+                                <p>Same level of security used by major banks</p>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Licensed & Verified by RBZ</strong>
+                                <p>Fully licensed and regulated by the Reserve Bank of Zimbabwe</p>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Data Privacy Guaranteed</strong>
+                                <p>We never sell or share your personal information</p>
+                            </div>
+                        </div>
+                        <div class="security-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Secure Account Access</strong>
+                                <p>Protect your account with secure password verification</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="security-badges">
+                    <div class="badge">
+                        <div class="badge-icon">🔒</div>
+                        <div class="badge-text">
+                            <strong>SSL Secured</strong>
+                            <small>256-bit Encryption</small>
+                        </div>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-icon">✓</div>
+                        <div class="badge-text">
+                            <strong>Licensed Lender</strong>
+                            <small>RBZ Regulated</small>
+                        </div>
+                    </div>
+                    <div class="badge">
+                        <div class="badge-icon">🛡️</div>
+                        <div class="badge-text">
+                            <strong>Privacy Protected</strong>
+                            <small>Fully Compliant</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="reviews-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">What Our Customers Say</h2>
+                <p class="section-subtitle">Join thousands of happy borrowers</p>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Got approved in 10 minutes! The whole process was smooth and transparent. Best loan experience I've had."</p>
+                    <div class="reviewer">
+                        <strong>Tendai M.</strong>
+                        <span>Harare • Verified Customer</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"No hidden fees, exactly as advertised. The monthly payments fit perfectly with my budget. Highly recommend!"</p>
+                    <div class="reviewer">
+                        <strong>Rumbidzai K.</strong>
+                        <span>Bulawayo • Verified Customer</span>
+                    </div>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Super fast and secure. I was worried about online loans, but Steward Bank made me feel safe every step of the way."</p>
+                    <div class="reviewer">
+                        <strong>Tafadzwa N.</strong>
+                        <span>Mutare • Verified Customer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Get Started?</h2>
+                <p>Join 50,000+ customers who trust Steward Bank for their financial needs</p>
+                <button class="cta-button large" onclick="window.location.href='application.html'">
+                    Apply Now - Get Decision in Minutes
+                    <span class="arrow">→</span>
+                </button>
+                <p class="cta-note">✓ No impact on credit score • ✓ Secure application • ✓ Fast decision</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Steward Bank</h4>
+                    <p>Fast, transparent, and secure loans.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Careers</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Licensing</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <a href="#">Help Center</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Live Chat</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Steward Bank. All rights reserved. Licensed Lender in Zimbabwe.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="landing-script.js"></script>
+</body>
+</html>

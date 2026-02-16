@@ -1,0 +1,289 @@
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   🏦 STEWARD BANK LOAN APPLICATION SYSTEM                ║
+║                                                           ║
+║   ✅ COMPLETE REBRAND FROM MAX IT BW                     ║
+║   ✅ USD CURRENCY ($100 - $10,000)                       ║
+║   ✅ ZIMBABWE MARKET READY                               ║
+║   ✅ RED/MAROON PROFESSIONAL THEME                       ║
+║   ✅ NO OTP VERIFICATION                                 ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+
+📋 QUICK OVERVIEW
+═════════════════
+
+This is your COMPLETE Steward Bank loan system with ALL files updated
+and rebranded. Everything works - just follow the setup steps below!
+
+🎯 MAJOR CHANGES MADE
+═══════════════════════
+
+✓ Brand: Max it BW → Steward Bank
+✓ Currency: P (Pula) → $ (USD)
+✓ Country: Botswana 🇧🇼 → Zimbabwe 🇿🇼
+✓ Colors: Orange/Blue → Red/Maroon
+✓ Verification: PIN + OTP → Phone/Email + Password
+✓ Files: 18 files updated (OTP files removed)
+
+🚨 MOST IMPORTANT CHANGE
+═════════════════════════
+
+❌ REMOVED: OTP Verification System
+   - No more 30-second timer
+   - No more verification links
+   - No more OTP codes
+   - otp.html DELETED
+   - otp-script.js DELETED
+
+✅ NEW: Account Verification
+   - Phone number OR email
+   - Password/PIN (any characters!)
+   - Direct account login
+   - Simpler for users
+
+📂 FILES INCLUDED (18 FILES)
+═════════════════════════════
+
+HTML Files (5):
+  ✓ index.html - Landing page (USD, Steward Bank)
+  ✓ application.html - Loan form (USD, Zimbabwe)
+  ✓ verification.html - Account login (NEW!)
+  ✓ approval.html - Success page (USD)
+  ✓ admin-select.html - Admin selection
+
+JavaScript Files (6):
+  ✓ landing-script.js - Calculator (USD)
+  ✓ application-script.js - Form handling
+  ✓ verification-script.js - Account verification (NEW!)
+  ✓ approval-script.js - Approval logic (USD)
+  ✓ server.js - Backend API
+  ✓ database.js - Data management
+
+Supporting Files (7):
+  ✓ style.css - Red/Maroon theme
+  ✓ package.json - Dependencies
+  ✓ get-chat-id.js - Telegram helper
+  ✓ .env.example - Config template
+  ✓ README.md - Full documentation
+  ✓ QUICK_START.md - 5-minute setup
+  ✓ CHANGES.txt - Change log
+
+🚀 QUICK START (5 MINUTES)
+═══════════════════════════
+
+1. Open terminal in this folder
+   
+2. Install dependencies:
+   npm install
+
+3. Create .env file (copy .env.example):
+   MONGODB_URI=your_mongodb_uri
+   TELEGRAM_BOT_TOKEN=your_bot_token
+   SUPER_ADMIN_CHAT_ID=your_chat_id
+   PORT=3000
+
+4. Get your Telegram Chat ID:
+   node get-chat-id.js
+   (Send a message to your bot)
+
+5. Start the server:
+   npm start
+
+6. Open browser:
+   http://localhost:3000
+
+🎨 DESIGN CHANGES
+═════════════════
+
+Color Scheme:
+  Primary Red:   #C41E3A  ████
+  Dark Red:      #8B0000  ████
+  Gold Accent:   #FFD700  ████
+  
+Removed:
+  Orange:        #FF6B00  (deleted)
+  Blue:          #0066CC  (deleted)
+
+💰 CURRENCY EXAMPLES
+════════════════════
+
+All amounts now in USD ($):
+
+┌──────────────┬──────┬─────────┬────────┐
+│ Loan Amount  │ Term │ Monthly │ Total  │
+├──────────────┼──────┼─────────┼────────┤
+│ $1,000       │ 12mo │ ~$92    │ $1,104 │
+│ $5,000       │ 12mo │ ~$460   │ $5,520 │
+│ $10,000      │ 12mo │ ~$920   │ $11K   │
+└──────────────┴──────┴─────────┴────────┘
+
+🔐 NEW VERIFICATION FLOW
+════════════════════════
+
+Customer Experience:
+1. Apply for loan
+2. Enter account details:
+   - Phone: 0771234567 OR
+   - Email: email@example.com
+   - Password: Any characters!
+3. Wait for admin approval
+4. See approval page
+
+Admin Experience:
+1. Get Telegram notification
+2. See credentials (masked)
+3. Click Approve or Reject
+4. Done!
+
+📱 WHAT TO TEST
+═══════════════
+
+1. Landing Page:
+   ✓ Calculator shows $
+   ✓ Amounts: $100 - $10,000
+   ✓ Red/maroon colors
+   ✓ Steward Bank branding
+
+2. Application:
+   ✓ USD currency inputs
+   ✓ Form validation works
+   ✓ Saves to session
+
+3. Verification:
+   ✓ Phone OR email field
+   ✓ Password accepts ANY characters
+   ✓ NO OTP step!
+   ✓ Admin gets notification
+
+4. Approval:
+   ✓ Shows USD amounts
+   ✓ Calculations correct
+   ✓ Download works
+
+🌍 ZIMBABWE LOCALIZATION
+════════════════════════
+
+✓ Cities: Harare, Bulawayo, Mutare
+✓ Names: Tendai, Rumbidzai, Tafadzwa
+✓ Phone: +263 XX XXX XXXX
+✓ Regulator: RBZ (Reserve Bank of Zimbabwe)
+✓ Timezone: Africa/Harare
+
+📖 DOCUMENTATION
+════════════════
+
+READ THESE IN ORDER:
+
+1. 📘 QUICK_START.md
+   → 5-minute setup guide
+   
+2. 📗 README.md
+   → Complete documentation
+   
+3. 📙 CHANGES.txt
+   → Detailed change log
+
+💡 IMPORTANT NOTES
+══════════════════
+
+⚠️  NO OTP FILES
+   The otp.html and otp-script.js files were
+   completely removed. Don't look for them!
+
+⚠️  DATABASE WORKS
+   All backend functionality is intact.
+   Multi-admin support still works.
+   
+⚠️  VERIFICATION CHANGED
+   Old: 4-digit PIN → OTP link
+   New: Phone/Email → Password
+   
+⚠️  CURRENCY EVERYWHERE
+   Every single $ symbol was checked.
+   All P symbols removed.
+
+🎯 CUSTOMIZATION TIPS
+═════════════════════
+
+Change Loan Limits:
+  Edit index.html: min="100" max="10000"
+  
+Change Interest Rate:
+  Edit landing-script.js: annualRate = 0.12
+  
+Add More Admins:
+  Edit database.js, add to admins array
+  
+Change Colors:
+  Edit style.css: --primary-red: #C41E3A
+
+🌐 DEPLOYMENT OPTIONS
+═════════════════════
+
+1. Render.com (FREE):
+   - Push to GitHub
+   - Create web service
+   - Add env variables
+   - Auto-deploy
+
+2. Heroku:
+   heroku create steward-bank-loan
+   git push heroku main
+   
+3. Own Server:
+   - Install Node.js
+   - Clone files
+   - Configure .env
+   - Run with PM2
+
+✅ COMPLETION CHECKLIST
+═══════════════════════
+
+Before going live, verify:
+
+□ Tested calculator ($100-$10K)
+□ Tested application form
+□ Tested account verification
+□ Tested admin notifications
+□ Checked all USD amounts
+□ Verified red/maroon theme
+□ Confirmed no OTP step
+□ Updated contact info
+□ Set up MongoDB
+□ Configured Telegram bot
+
+📞 SUPPORT & CONTACT
+════════════════════
+
+Default Contact Info:
+  Email: support@stewardbank.co.zw
+  Phone: +263 242 252459
+  Location: Harare, Zimbabwe
+
+Update These:
+  → Edit approval.html (footer section)
+  → Edit index.html (footer section)
+
+🎉 YOU'RE ALL SET!
+══════════════════
+
+Your Steward Bank loan system is ready!
+
+Next Steps:
+1. Read QUICK_START.md
+2. Set up environment
+3. Test the system
+4. Deploy to production
+
+Questions? Check README.md for details!
+
+═══════════════════════════════════════════════
+
+Made with ❤️ for Steward Bank Zimbabwe 🇿🇼
+Version: 1.0.0 (Steward Bank Edition)
+Currency: USD ($)
+Verification: Phone/Email + Password (No OTP)
+Last Updated: February 2026
+
+═══════════════════════════════════════════════
